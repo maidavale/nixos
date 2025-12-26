@@ -4,8 +4,8 @@
   home.file.".config/starship.toml" = {
     text = ''
       format = """
-        $directory$git_branch$git_status
-        $character
+      $directory$git_branch$git_status
+      $character
       """
 
       [directory]

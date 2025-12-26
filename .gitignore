@@ -1,0 +1,12 @@
+# secrets
+secrets/
+*.age
+*.key
+*.pem
+
+# editor/OS noise
+.DS_Store
+.direnv/
+.result
+result
+

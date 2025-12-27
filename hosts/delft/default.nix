@@ -11,6 +11,7 @@
     ../../modules/nixos/users-martijn.nix
     ../../modules/nixos/packages-delft.nix
     ../../modules/nixos/stylix.nix
+    ../../modules/nixos/virtualisation-podman.nix
   ];
 
   networking.hostName = "delft";

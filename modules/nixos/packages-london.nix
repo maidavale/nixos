@@ -18,8 +18,6 @@ in
   environment.systemPackages = with pkgs; [
     # terminals / editor / shell UX
     neovim
-    kitty
-    zellij
     yazi    
 
     # basics

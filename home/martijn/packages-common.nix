@@ -6,6 +6,9 @@
     fishPlugins.done
     fishPlugins.autopair
 
+    wget
+    tree
+    htop
     ripgrep
     fd
 

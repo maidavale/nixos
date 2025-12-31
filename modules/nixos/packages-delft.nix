@@ -31,11 +31,6 @@ in
     
     # RStudio
     myRStudio
-    
-    # small system utilities
-    wget
-    tree
-    
   ];
 
 }

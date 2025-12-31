@@ -20,13 +20,10 @@ in
     yazi    
 
     # basics
-    wget
-    htop
     fastfetch
     dig
     yt-dlp
     filezilla
-    tree
 
     # office
     libreoffice

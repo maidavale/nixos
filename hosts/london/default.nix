@@ -41,6 +41,7 @@
   nix.settings.auto-optimise-store = true;
   boot.loader.systemd-boot.configurationLimit = 5;
 
+  # Initial install compatibility anchor; don’t change unless migrating state intentionally.
   system.stateVersion = "25.05";
 }
 

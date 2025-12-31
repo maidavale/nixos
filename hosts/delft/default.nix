@@ -23,6 +23,7 @@
   };
   console.keyMap = "uk";
 
+  # Initial install compatibility anchor; don’t change unless migrating state intentionally
   system.stateVersion = "25.11";
 }
 

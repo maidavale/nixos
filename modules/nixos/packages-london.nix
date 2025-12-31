@@ -38,9 +38,6 @@ in
     # office
     libreoffice
 
-    # vpn
-    ivpn-service
-
     # comms
     signal-desktop
     discord

@@ -21,7 +21,6 @@ in
     yazi    
 
     # basics
-    git
     wget
     htop
     fastfetch

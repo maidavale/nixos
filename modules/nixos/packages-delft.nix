@@ -33,7 +33,6 @@ in
     myRStudio
     
     # small system utilities
-    git
     wget
     ripgrep    
     tree

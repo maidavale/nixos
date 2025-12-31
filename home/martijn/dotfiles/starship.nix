@@ -1,6 +1,11 @@
 { config, pkgs, lib, ... }:
 
 {
+  programs.starship = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
   home.file.".config/starship.toml" = {
     text = ''
       format = """

@@ -19,8 +19,6 @@ in
     # terminals / editor / shell UX
     neovim
     kitty
-    fish
-    starship
     zellij
     yazi    
 

@@ -26,7 +26,6 @@ in
     dig
     yt-dlp
     filezilla
-    ripgrep
     tree
 
     # office

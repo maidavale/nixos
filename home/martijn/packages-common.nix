@@ -6,6 +6,9 @@
     fishPlugins.done
     fishPlugins.autopair
 
+    ripgrep
+    fd
+
     wl-clipboard
 
     (pkgs.writeShellScriptBin "zoom" ''

@@ -34,7 +34,6 @@ in
     
     # small system utilities
     wget
-    ripgrep    
     tree
     
   ];

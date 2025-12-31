@@ -17,7 +17,6 @@ in
 {
   environment.systemPackages = with pkgs; [
     # terminals / editor / shell UX
-    neovim
     yazi    
 
     # basics

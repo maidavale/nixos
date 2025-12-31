@@ -39,6 +39,5 @@ in
     
   ];
 
-  services.protonmail-bridge.enable = true;
 }
 

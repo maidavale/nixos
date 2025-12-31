@@ -5,7 +5,7 @@
   home.stateVersion = "25.05";
 
   home.packages = [
-    (pkgs.writeShellScriptBin "google-chrome" ''
+    (pkgs.writeShellScriptBin "google-chrome-x11" ''
       exec ${pkgs.google-chrome}/bin/google-chrome-stable \
         --ozone-platform=x11 \
         --use-angle=opengl \

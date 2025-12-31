@@ -14,6 +14,9 @@
     ../../modules/nixos/nextdns.nix
     ../../modules/nixos/packages-london.nix
     ../../modules/nixos/stylix.nix
+
+    ../../modules/nixos/services/protonmail-bridge.nix
+    ../../modules/nixos/services/ivpn.nix
   ];
 
   networking.hostName = "london";
@@ -21,6 +24,11 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "";
+  };
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
   };
 
   # Your custom NextDNS module (from nextdns.nix)

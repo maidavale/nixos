@@ -75,13 +75,6 @@ in
     zoom-us
   ];
 
-  services.protonmail-bridge.enable = true;
-  services.ivpn.enable = true;
 
-  # Your london configuration.nix had:
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
 }
 

@@ -33,6 +33,7 @@
         };
 
       pkgsDelft = mkPkgs { overlays = [ denoNoChecksOverlay ]; };
+      pkgsAmsterdam = mkPkgs { overlays = [ denoNoChecksOverlay ]; };
       pkgsLondon = mkPkgs { overlays = [ ]; };
     in
     {
@@ -44,6 +45,16 @@
             stylix.nixosModules.stylix
             ({ ... }: { _module.args.flakeRoot = self; })
             ./hosts/delft/default.nix
+          ];
+        };
+
+        amsterdam = lib.nixosSystem {
+          inherit system;
+          pkgs = pkgsAmsterdam;
+          modules = [
+            stylix.nixosModules.stylix
+            ({ ... }: { _module.args.flakeRoot = self; })
+            ./hosts/amsterdam/default.nix
           ];
         };
 
@@ -62,6 +73,16 @@
       homeConfigurations = {
         "martijn@delft" = home-manager.lib.homeManagerConfiguration {
           pkgs = pkgsDelft;
+          modules = [
+            stylix.homeModules.stylix
+            ({ ... }: { _module.args.flakeRoot = self; })
+            ./home/martijn/default.nix
+            ./home/martijn/hosts/delft.nix
+          ];
+        };
+
+        "martijn@amsterdam" = home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgsAmsterdam;
           modules = [
             stylix.homeModules.stylix
             ({ ... }: { _module.args.flakeRoot = self; })

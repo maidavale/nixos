@@ -33,7 +33,7 @@
         };
 
       pkgsDelft = mkPkgs { overlays = [ denoNoChecksOverlay ]; };
-      pkgsAmsterdam = mkPkgs { overlays = [ denoNoChecksOverlay ]; };
+      pkgsAmsterdam = mkPkgs { overlays = [ ]; };
       pkgsLondon = mkPkgs { overlays = [ ]; };
     in
     {

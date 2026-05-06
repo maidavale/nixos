@@ -34,7 +34,17 @@
 
       pkgsDelft = mkPkgs { overlays = [ denoNoChecksOverlay ]; };
       pkgsAmsterdam = mkPkgs { overlays = [ ]; };
-      pkgsLondon = mkPkgs { overlays = [ ]; };
+      pkgsLondon = import nixpkgs {
+        inherit system;
+        overlays = [ ];
+        config = {
+          allowUnfree = true;
+          citrix_workspace.enableEULA = true;
+          permittedInsecurePackages = [
+            "electron-38.8.4"
+          ];
+        };
+      };
     in
     {
       nixosConfigurations = {

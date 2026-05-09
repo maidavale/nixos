@@ -29,22 +29,15 @@
           config = {
             allowUnfree = true;
             citrix_workspace.enableEULA = true;
+            permittedInsecurePackages = [
+              "electron-38.8.4"
+            ];
           };
         };
 
       pkgsDelft = mkPkgs { overlays = [ denoNoChecksOverlay ]; };
       pkgsAmsterdam = mkPkgs { overlays = [ ]; };
-      pkgsLondon = import nixpkgs {
-        inherit system;
-        overlays = [ ];
-        config = {
-          allowUnfree = true;
-          citrix_workspace.enableEULA = true;
-          permittedInsecurePackages = [
-            "electron-38.8.4"
-          ];
-        };
-      };
+      pkgsLondon = mkPkgs { overlays = [ ]; };
     in
     {
       nixosConfigurations = {

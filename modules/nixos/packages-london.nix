@@ -58,6 +58,9 @@ in
     # R
     myRStudio
 
+    # transcription
+    whisper-ctranslate2
+
     # zoom (you also wrap it in HM, but having it installed system-wide is fine)
     zoom-us
   ];

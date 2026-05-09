@@ -14,6 +14,7 @@
 
     wl-clipboard
     claude-code
+    gh
 
     (pkgs.writeShellScriptBin "zoom-xcb" ''
       export QT_QPA_PLATFORM=xcb

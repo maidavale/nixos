@@ -15,14 +15,6 @@
       system = "x86_64-linux";
       lib = nixpkgs.lib;
 
-      # Only apply this overlay to delft (you needed it there)
-      denoNoChecksOverlay = (final: prev: {
-        deno = prev.deno.overrideAttrs (_old: {
-          doCheck = false;
-          checkPhase = "";
-        });
-      });
-
       mkPkgs = { overlays ? [ ] }:
         import nixpkgs {
           inherit system overlays;
@@ -35,7 +27,7 @@
           };
         };
 
-      pkgsDelft = mkPkgs { overlays = [ denoNoChecksOverlay ]; };
+      pkgsDelft = mkPkgs { overlays = [ ]; };
       pkgsAmsterdam = mkPkgs { overlays = [ ]; };
       pkgsLondon = mkPkgs { overlays = [ ]; };
     in

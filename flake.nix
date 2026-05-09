@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -10,10 +11,15 @@
     stylix.url = "github:danth/stylix/release-25.11";
   };
 
-  outputs = { self, nixpkgs, home-manager, stylix, ... }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, stylix, ... }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
+
+      pkgsUnstable = import nixpkgs-unstable {
+        inherit system;
+        config = { allowUnfree = true; };
+      };
 
       mkPkgs = { overlays ? [ ] }:
         import nixpkgs {
@@ -70,7 +76,7 @@
           pkgs = pkgsDelft;
           modules = [
             stylix.homeModules.stylix
-            ({ ... }: { _module.args.flakeRoot = self; })
+            ({ ... }: { _module.args.flakeRoot = self; _module.args.pkgsUnstable = pkgsUnstable; })
             ./home/martijn/default.nix
             ./home/martijn/hosts/delft.nix
           ];
@@ -80,7 +86,7 @@
           pkgs = pkgsAmsterdam;
           modules = [
             stylix.homeModules.stylix
-            ({ ... }: { _module.args.flakeRoot = self; })
+            ({ ... }: { _module.args.flakeRoot = self; _module.args.pkgsUnstable = pkgsUnstable; })
             ./home/martijn/default.nix
             ./home/martijn/hosts/delft.nix
           ];
@@ -90,7 +96,7 @@
           pkgs = pkgsLondon;
           modules = [
             stylix.homeModules.stylix
-            ({ ... }: { _module.args.flakeRoot = self; })
+            ({ ... }: { _module.args.flakeRoot = self; _module.args.pkgsUnstable = pkgsUnstable; })
             ./home/martijn/default.nix
             ./home/martijn/hosts/london.nix
           ];

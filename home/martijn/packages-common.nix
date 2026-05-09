@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, pkgsUnstable, lib, ... }:
 
 {
   home.packages = with pkgs; [
@@ -13,7 +13,7 @@
     fd
 
     wl-clipboard
-    claude-code
+    pkgsUnstable.claude-code
     gh
 
     (pkgs.writeShellScriptBin "zoom-xcb" ''

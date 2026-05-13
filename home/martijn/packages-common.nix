@@ -16,6 +16,8 @@
     pkgsUnstable.claude-code
     gh
 
+    vscodium
+
     (pkgs.writeShellScriptBin "zoom-xcb" ''
       export QT_QPA_PLATFORM=xcb
       exec ${pkgs.zoom-us}/bin/zoom "$@"

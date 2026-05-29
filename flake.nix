@@ -44,7 +44,7 @@
           pkgs = pkgsDelft;
           modules = [
             stylix.nixosModules.stylix
-            ({ ... }: { _module.args.flakeRoot = self; })
+            ({ ... }: { _module.args.flakeRoot = self; _module.args.pkgsUnstable = pkgsUnstable; })
             ./hosts/delft/default.nix
           ];
         };
@@ -54,7 +54,7 @@
           pkgs = pkgsAmsterdam;
           modules = [
             stylix.nixosModules.stylix
-            ({ ... }: { _module.args.flakeRoot = self; })
+            ({ ... }: { _module.args.flakeRoot = self; _module.args.pkgsUnstable = pkgsUnstable; })
             ./hosts/amsterdam/default.nix
           ];
         };
@@ -64,7 +64,7 @@
           pkgs = pkgsLondon;
           modules = [
             stylix.nixosModules.stylix
-            ({ ... }: { _module.args.flakeRoot = self; })
+            ({ ... }: { _module.args.flakeRoot = self; _module.args.pkgsUnstable = pkgsUnstable; })
             ./hosts/london/default.nix
           ];
         };

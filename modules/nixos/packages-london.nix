@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgsUnstable, ... }:
 
 let
   myRStudio = pkgs.rstudioWrapper.override {
@@ -62,7 +62,8 @@ in
     whisper-ctranslate2
 
     # zoom (you also wrap it in HM, but having it installed system-wide is fine)
-    zoom-us
+    # Pulled from unstable for the newer 7.x release (stable 25.11 is still on 6.6).
+    pkgsUnstable.zoom-us
   ];
 
 

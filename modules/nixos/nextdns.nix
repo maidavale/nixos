@@ -19,7 +19,6 @@ in {
         "-config" cfg.nextdnsId
         "-report-client-info"
         "-listen" "127.0.0.1:53"
-        "-cache-size" "0"
       ];
     };
 

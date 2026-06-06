@@ -19,6 +19,7 @@ The goal is:
 - Desktop: GNOME (Wayland or X11)
 - Container runtime: **Podman**
 - Container manager: **Distrobox ≥ 1.8**
+- Container image: **`ubuntu:22.04`** (the live `citrix` box currently runs this, not Debian)
 - Citrix Workspace: Linux `.deb` installer
 
 We **do not rely on `/usr/local`** on the host (not guaranteed on NixOS).
@@ -54,7 +55,7 @@ sudo nixos-rebuild switch
 ```bash
 distrobox create \
   --name citrix \
-  --image docker.io/library/debian:12
+  --image docker.io/library/ubuntu:22.04
 ```
 
 Enter using bash:
@@ -132,7 +133,12 @@ This is **expected**.
 
 ---
 
-## 6. Prevent NixOS host library leakage (critical)
+## 6. Prevent NixOS host library leakage (optional troubleshooting)
+
+> **Note:** The current working setup does **not** use these clean wrappers — the
+> exported `.ica` handler calls `/opt/Citrix/ICAClient/adapter` directly (see §8) and
+> works fine. Only add these wrappers if you actually hit host GVFS / GTK module
+> errors (e.g. `Citrix` failing to load with `GIO`/`GTK` complaints).
 
 Citrix must not load host GVFS / GTK modules.
 
@@ -174,89 +180,63 @@ citrix-selfservice &
 
 ---
 
-## 7. Export Workspace UI to GNOME
+## 7. Workspace UI launcher (optional)
 
-Citrix does not ship a usable `.desktop` file.
-
-### 7.1 Create desktop entry (inside container)
-
-```bash
-mkdir -p ~/.local/share/applications
-
-cat > ~/.local/share/applications/citrix-selfservice.desktop <<'EOF'
-[Desktop Entry]
-Type=Application
-Name=Citrix Workspace
-Exec=/usr/local/bin/citrix-selfservice
-Icon=receiver
-Terminal=false
-Categories=Network;RemoteAccess;
-StartupNotify=true
-EOF
-```
-
-### 7.2 Export it (inside container)
+> **Current state:** the Workspace UI (`selfservice`) is **not** exported to the GNOME
+> menu. The only Citrix-related host entries are:
+> - `~/.local/share/applications/citrix.desktop` — distrobox's auto-generated
+>   "enter the container in a terminal" shortcut (created by `distrobox create`).
+> - `~/.local/share/applications/citrix-wfica.desktop` — the exported `.ica` handler (see §8).
+>
+> In practice Citrix sessions are launched by double-clicking `.ica` files, so a
+> standalone Workspace UI launcher isn't required. If you *do* want the UI in GNOME,
+> Citrix ships its own `selfservice.desktop` inside the container — just export it:
 
 ```bash
-distrobox-export --app ~/.local/share/applications/citrix-selfservice.desktop
+# inside the container, Citrix already provides /usr/share/applications/selfservice.desktop
+distrobox-export --app selfservice
 ```
+
+This produces `~/.local/share/applications/citrix-selfservice.desktop` on the host,
+wrapped to run via `distrobox enter`.
 
 ---
 
 ## 8. Enable double‑click `.ica` files (host)
 
-### 8.1 Host wrapper
+This is done by exporting Citrix's own `wfica` desktop entry from the container,
+**not** by hand-writing a host wrapper script.
 
-```bash
-mkdir -p ~/.local/bin
+### 8.1 Export the wfica handler (inside container)
 
-cat > ~/.local/bin/citrix-ica <<'EOF'
-#!/usr/bin/env bash
-exec distrobox enter citrix -- /usr/local/bin/wfica-clean "$@"
-EOF
+Citrix's `.deb` installs `/usr/share/applications/wfica.desktop`, which already
+declares `MimeType=application/x-ica;` and runs the ICA adapter:
 
-chmod +x ~/.local/bin/citrix-ica
+```
+Exec=/opt/Citrix/ICAClient/adapter -icaroot /opt/Citrix/ICAClient %f
 ```
 
-Ensure PATH (fish):
+Export it to the host:
 
 ```bash
-fish_add_path ~/.local/bin
+distrobox-export --app wfica
 ```
 
-Test:
+This creates `~/.local/share/applications/citrix-wfica.desktop` on the host, with
+the `Exec` line automatically wrapped in `distrobox-enter -n citrix -- …` so the
+adapter runs inside the container.
+
+### 8.2 Register it as the default `.ica` MIME handler (host)
 
 ```bash
-citrix-ica
-```
-
----
-
-### 8.2 Register `.ica` MIME handler
-
-```bash
-mkdir -p ~/.local/share/applications
-
-cat > ~/.local/share/applications/citrix-ica.desktop <<'EOF'
-[Desktop Entry]
-Type=Application
-Name=Citrix ICA
-Exec=/home/<user>/.local/bin/citrix-ica %f
-MimeType=application/x-ica;
-NoDisplay=true
-EOF
-```
-
-Then:
-
-```bash
-xdg-mime default citrix-ica.desktop application/x-ica
+xdg-mime default citrix-wfica.desktop application/x-ica
 ```
 
 Verify:
 
 ```bash
 xdg-mime query default application/x-ica
+# expected: citrix-wfica.desktop
 ```
 
 ---
@@ -273,10 +253,9 @@ xdg-mime query default application/x-ica
 
 ## 10. Known pitfalls
 
-- Do **not** use `--init` with Debian images
+- Do **not** use `--init` with Debian/Ubuntu images
 - Do **not** install `.deb` from `/run/host/...`
 - Do **not** rely on `/usr/local` on NixOS host
-- Do **not** run Citrix without cleaning GTK/GVFS env
 - `wfica --version` is unreliable
 
 ---

@@ -31,6 +31,10 @@ nix flake update
 
 Workflow order the README recommends: **edit → commit → rebuild → push** (so every system state is recorded in git for easy rollback). Commit `flake.lock`; `result` symlinks are gitignored.
 
+## MCP servers
+
+This config registers a **`nixos` MCP server** (`mcp-nixos`) for Claude Code, defined declaratively in `home/martijn/programs/claude-code.nix` via `programs.claude-code.mcpServers` (Home Manager 25.11+). Use its `nix` / `nix_versions` tools for any nixpkgs / NixOS / Home Manager option / channel / flake / binary-cache lookup — they query live data and are more current than training knowledge or `nix search`. The server package comes from `pkgsUnstable.mcp-nixos`, referenced by store path so no separate `home.packages` entry is needed; the HM module wraps `claude` with `--mcp-config` and does not touch `~/.claude.json`. That same module also installs `claude-code` itself (`programs.claude-code.package = pkgsUnstable.claude-code`), which is why it is no longer listed in `packages-common.nix`.
+
 ## Architecture
 
 `flake.nix` is the entry point. Key structural decisions:

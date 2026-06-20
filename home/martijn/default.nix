@@ -11,6 +11,7 @@
     ./programs/neovim.nix
     ./programs/zellij.nix
     ./programs/git.nix
+    ./programs/claude-code.nix
 
     ./dotfiles/starship.nix
     ./dotfiles/zellij.nix

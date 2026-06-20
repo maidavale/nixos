@@ -13,7 +13,6 @@
     fd
 
     wl-clipboard
-    pkgsUnstable.claude-code
     pkgsUnstable.codex
     gh
 
